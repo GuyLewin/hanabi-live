@@ -19,6 +19,7 @@ import EndCondition from "../types/EndCondition";
 import GameMetadata, { getPlayerName } from "../types/GameMetadata";
 import GameState from "../types/GameState";
 import Variant from "../types/Variant";
+import * as arrows from "../ui/arrows";
 import cardsReducer from "./cardsReducer";
 import statsReducer from "./statsReducer";
 import turnReducer from "./turnReducer";
@@ -250,6 +251,15 @@ function gameStateReducerFunction(
       var positionBeforeMoving = hand.indexOf(action.cardOrder);
       var positionAfterMoving = action.positionAfterMoving;
       hand.splice(positionAfterMoving, 0, hand.splice(positionBeforeMoving, 1)[0]);
+
+      // Update clues after someone re-orders hands
+      if (state.clues.length > 0) {
+        var lastClue = state.clues[state.clues.length - 1];
+        if (lastClue.target == action.playerIndex) {
+          // If the last clue was given to the person that just re-ordered - hide arrows
+          arrows.hideAll();
+        }
+      }
 
       break;
     }

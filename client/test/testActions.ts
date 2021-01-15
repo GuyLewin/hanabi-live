@@ -1,6 +1,5 @@
 // Helper functions to build actions with a compact syntax
 // For use in tests
-
 import {
   ActionClue,
   ActionDiscard,
@@ -15,9 +14,10 @@ import {
   ActionReplayEnter,
   ActionReplayExit,
   ActionStrike,
-  ActionTurn,
+  ActionTurn
 } from "../src/game/types/actions";
 import ClueType from "../src/game/types/ClueType";
+import { ActionReorderCards } from './../src/game/types/actions';
 
 const clue = (
   type: ClueType,
@@ -110,6 +110,17 @@ export const turn = (num: number, currentPlayerIndex: number): ActionTurn => ({
   type: "turn",
   num,
   currentPlayerIndex,
+});
+
+export const reorderCards = (
+  playerIndex: number,
+  cardOrder: number,
+  positionAfterMoving: number
+): ActionReorderCards => ({
+  type: "reorderCards",
+  playerIndex,
+  cardOrder,
+  positionAfterMoving
 });
 
 export const replayEnter = (): ActionReplayEnter => ({

@@ -262,7 +262,8 @@ export default function cardsReducer(
     case "gameOver":
     case "playerTimes":
     case "strike":
-    case "turn": {
+    case "turn":
+    case "reorderCards": {
       break;
     }
 

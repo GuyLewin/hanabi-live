@@ -29,7 +29,7 @@ import {
   checkNoteImpossibility,
   getRankFromNote,
   getSuitIndexFromNote,
-  possibleCardsFromNoteAndClues,
+  possibleCardsFromNoteAndClues
 } from "./noteCheckImpossibility";
 import * as notes from "./notes";
 
@@ -475,8 +475,10 @@ export default class HanabiCard extends Konva.Group implements NodeWithTooltip {
 
     // If a card has a "blank" note on it, the user wants to force the card to appear blank
     if (
-      this.note.blank &&
-      !this.empathy &&
+      //this.note.blank &&
+      // GUY: force all cards in our hand to be blank
+      this.state.location == globals.metadata.ourPlayerIndex &&
+      //!this.empathy &&
       !cardRules.isPlayed(this.state) &&
       !cardRules.isDiscarded(this.state) &&
       globals.state.playing

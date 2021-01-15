@@ -147,6 +147,71 @@ export default class LayoutChild extends Konva.Group {
     if (draggedTo === "playArea" && this.checkMisplay()) {
       draggedTo = null;
     }
+    // GUY
+    if (draggedTo === "cardArea") {
+      const pos = this.getAbsolutePosition();
+      pos.x += (this.width() * this.scaleX()) / 2;
+
+      const cardOrder = this.card.state.order;
+      const previousZIndex = this.getZIndex();
+      var positionAfterMoving;
+
+      const parent = ((this.parent as unknown) as CardLayout | PlayStack);
+      var childrenArr = parent.children.toArray();
+      // globals.lobby.settings.reverseHands
+
+      if (globals.lobby.settings.reverseHands) {
+        for (var i = 0; i < childrenArr.length; i++) {
+          const iCardPos = childrenArr[i].getAbsolutePosition();
+          iCardPos.x += (childrenArr[i].width() * parent.children[i].scaleX()) / 2;
+          if (pos.x < iCardPos.x) {
+            // This card is left of iCardPos
+            positionAfterMoving = childrenArr[i].getZIndex();
+            if (positionAfterMoving > previousZIndex) {
+              positionAfterMoving--;
+            }
+            break;
+          } else if ((i == childrenArr.length - 1) && (pos.x >= iCardPos.x)) {
+            // This card is left of the right-most card
+            positionAfterMoving = childrenArr[childrenArr.length - 1].getZIndex();;
+            break;
+          }
+        }
+      } else {
+        for (var i = 0; i < childrenArr.length; i++) {
+          const iCardPos = childrenArr[i].getAbsolutePosition();
+          iCardPos.x += (childrenArr[i].width() * parent.children[i].scaleX()) / 2;
+          if (pos.x > iCardPos.x) {
+            // This card is right of iCardPos
+            positionAfterMoving = childrenArr[i].getZIndex();
+            if (positionAfterMoving > previousZIndex) {
+              positionAfterMoving--;
+            }
+            break;
+          } else if ((i == childrenArr.length - 1) && (pos.x <= iCardPos.x)) {
+            // This card is left of the left-most card
+            positionAfterMoving = childrenArr[childrenArr.length - 1].getZIndex();;
+            break;
+          }
+        }
+      }
+
+      const type = ActionType.ReorderCards;
+
+      // Only report change if anything changed
+      if (previousZIndex !== positionAfterMoving) {
+        globals.lobby.conn!.send("action", {
+          tableID: globals.lobby.tableID,
+          type,
+          cardOrder,
+          positionAfterMoving
+        });
+      }
+
+      // Re-render new layout
+      ((this.parent as unknown) as CardLayout | PlayStack).doLayout();
+      return;
+    }
 
     if (draggedTo === null) {
       // The card was dragged to an invalid location; tween it back to the hand

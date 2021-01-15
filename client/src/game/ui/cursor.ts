@@ -62,7 +62,7 @@ export function set(cursorType: CursorType): void {
 
 export function getElementDragLocation(
   element: LayoutChild | Deck,
-): "playArea" | "discardArea" | null {
+): "playArea" | "discardArea" | "cardArea" | null {
   const pos = element.getAbsolutePosition();
   pos.x += (element.width() * element.scaleX()) / 2;
   pos.y += (element.height() * element.scaleY()) / 2;
@@ -78,6 +78,15 @@ export function getElementDragLocation(
     posOverlaps(pos, globals.elements.discardArea)
   ) {
     return "discardArea";
+  }
+
+  // GUY
+  if (
+    globals.elements.playerHandTurnRects !== null &&
+    globals.elements.playerHandTurnRects[globals.metadata.ourPlayerIndex] !== null &&
+    posOverlaps(pos, globals.elements.playerHandTurnRects[globals.metadata.ourPlayerIndex])
+  ) {
+    return "cardArea";
   }
 
   return null;

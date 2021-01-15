@@ -34,6 +34,10 @@ type CommandData struct {
 	// tableSpectate
 	ShadowingPlayerIndex int `json:"shadowingPlayerIndex"`
 
+	// reorderCards
+	CardOrder           int `json:"cardOrder"`
+	PositionAfterMoving int `json:"positionAfterMoving"`
+
 	// replayCreate
 	Source     string    `json:"source"`
 	GameJSON   *GameJSON `json:"gameJSON"`

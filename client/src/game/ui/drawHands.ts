@@ -115,7 +115,8 @@ export default function drawHands(winW: number, winH: number): void {
     const rightX = 0.78; // This is 0.020 away from the clue log
     let topY = 0.03;
     const bottomY = 0.96;
-    let cardSpacing = 0.1; // The amount of card widths between adjacent cards
+    // GUY
+    let cardSpacing = 0.9; // The amount of card widths between adjacent cards
     const handSpacing = 0.45; // The amount of hand heights between adjacent hands
 
     if (numPlayers >= 4) {

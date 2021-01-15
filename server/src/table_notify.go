@@ -190,6 +190,18 @@ func (t *Table) NotifyTurn() {
 	t.NotifyGameAction()
 }
 
+// GUY
+func (t *Table) NotifyReorderCards(cardOrder int, positionAfterMoving int) {
+	g := t.Game
+	g.Actions = append(g.Actions, ActionReorderCards{
+		Type:                "reorderCards",
+		PlayerIndex:         g.ActivePlayerIndex,
+		CardOrder:           cardOrder,
+		PositionAfterMoving: positionAfterMoving,
+	})
+	t.NotifyGameAction()
+}
+
 func (t *Table) NotifyFinishOngoingGame() {
 	type FinishOngoingGameMessage struct {
 		TableID            uint64 `json:"tableID"`

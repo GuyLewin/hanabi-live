@@ -27,6 +27,7 @@ export type GameAction =
   | ActionPlayerTimes
   | ActionStrike
   | ActionTurn
+  | ActionReorderCards
   | NoteAction;
 
 export type NoteAction =
@@ -192,6 +193,13 @@ export interface ActionTurn {
   type: "turn";
   readonly num: number;
   readonly currentPlayerIndex: number;
+}
+
+export interface ActionReorderCards {
+  type: "reorderCards";
+  readonly playerIndex: number;
+  readonly cardOrder: number;
+  readonly positionAfterMoving: number;
 }
 
 // ------------

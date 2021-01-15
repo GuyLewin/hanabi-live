@@ -26,6 +26,7 @@ const (
 	ActionTypeColorClue
 	ActionTypeRankClue
 	ActionTypeEndGame // Players cannot send this (internal only)
+	ActionTypeReorderCards
 )
 
 const (

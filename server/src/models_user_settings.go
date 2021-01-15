@@ -41,10 +41,16 @@ var (
 	// The database schema must also be configured with any default settings
 	// This cannot be a pointer because we need to copy it
 	defaultSettings = Settings{ // nolint: exhaustivestruct
-		SoundMove:                     true,
-		SoundTimer:                    true,
-		Volume:                        50,
-		CreateTableVariant:            "No Variant",
+		SoundMove:  true,
+		SoundTimer: true,
+
+		// GUY
+		RealLifeMode:       true,
+		ReverseHands:       true,
+		CreateTableVariant: "Black (6 Suits)",
+
+		Volume: 50,
+		//CreateTableVariant:            "No Variant",
 		CreateTableTimeBaseMinutes:    2,
 		CreateTableTimePerTurnSeconds: 20,
 	}

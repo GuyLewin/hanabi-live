@@ -12,11 +12,12 @@ var (
 
 func actionsFunctionsInit() {
 	actionFunctions = map[int]func(*Session, *CommandData, *Game, *GamePlayer) bool{
-		ActionTypePlay:      commandActionPlay,
-		ActionTypeDiscard:   commandActionDiscard,
-		ActionTypeColorClue: commandActionClue,
-		ActionTypeRankClue:  commandActionClue,
-		ActionTypeEndGame:   commandActionEndGame,
+		ActionTypePlay:         commandActionPlay,
+		ActionTypeDiscard:      commandActionDiscard,
+		ActionTypeColorClue:    commandActionClue,
+		ActionTypeRankClue:     commandActionClue,
+		ActionTypeEndGame:      commandActionEndGame,
+		ActionTypeReorderCards: commandActionReorderCards,
 	}
 }
 
@@ -116,6 +117,13 @@ func action(ctx context.Context, s *Session, d *CommandData, t *Table, p *GamePl
 	} else {
 		s.Warning("That is not a valid action type.")
 		g.InvalidActionOccurred = true
+		return
+	}
+
+	// GUY
+	if d.Type == ActionTypeReorderCards {
+		t.NotifyReorderCards(d.CardOrder, d.PositionAfterMoving)
+		// Reordering cards isn't a turn
 		return
 	}
 
@@ -419,6 +427,30 @@ func commandActionEndGame(s *Session, d *CommandData, g *Game, p *GamePlayer) bo
 	if endGameAction != nil {
 		g.Actions2 = append(g.Actions2, endGameAction)
 	}
+
+	return true
+}
+
+func commandActionReorderCards(s *Session, d *CommandData, g *Game, p *GamePlayer) bool {
+	var positionBeforeMoving = p.GetCardIndex(d.CardOrder)
+	if positionBeforeMoving == -1 {
+		s.Warning("Card order " + strconv.Itoa(d.CardOrder) + " not found in hand. Hand is: " + strconv.Itoa(p.Hand[0].Order) + ", " + strconv.Itoa(p.Hand[1].Order) + ", " + strconv.Itoa(p.Hand[2].Order) + ", " + strconv.Itoa(p.Hand[3].Order) + ", " + strconv.Itoa(p.Hand[4].Order))
+		g.InvalidActionOccurred = true
+		return false
+	}
+	// We don't need to reorder anything
+	if positionBeforeMoving == d.PositionAfterMoving {
+		return true
+	}
+	c := p.Hand[positionBeforeMoving]
+
+	p.Hand = append(p.Hand[:positionBeforeMoving], p.Hand[positionBeforeMoving+1:]...)
+
+	newHand := make([]*Card, d.PositionAfterMoving+1)
+	copy(newHand, p.Hand[:d.PositionAfterMoving])
+	newHand[d.PositionAfterMoving] = c
+
+	p.Hand = append(newHand, p.Hand[d.PositionAfterMoving:]...)
 
 	return true
 }

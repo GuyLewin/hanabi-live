@@ -15,7 +15,7 @@ import {
   CHOP_MOVE_COLOR,
   CLUED_COLOR,
   FINESSE_COLOR,
-  OFF_BLACK,
+  OFF_BLACK
 } from "./constants";
 import NoteIndicator from "./controls/NoteIndicator";
 import RankPip from "./controls/RankPip";

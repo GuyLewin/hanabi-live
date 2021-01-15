@@ -4,5 +4,6 @@ enum ActionType {
   ColorClue,
   RankClue,
   GameOver,
+  ReorderCards,
 }
 export default ActionType;

@@ -253,6 +253,13 @@ func restoreTableAction(t *Table, i int, a interface{}) {
 				strconv.FormatUint(t.ID, 10) + " to a \"turn\" action.")
 		}
 		g.Actions[i] = actionTurn
+	} else if actionType == "reorderCards" {
+		actionReorderCards := ActionReorderCards{}
+		if err := mapstructure.Decode(a, &actionReorderCards); err != nil {
+			logger.Fatal("Failed to convert the action " + strconv.Itoa(i) + " of table " +
+				strconv.FormatUint(t.ID, 10) + " to a \"reorderCards\" action.")
+		}
+		g.Actions[i] = actionReorderCards
 	} else {
 		logger.Fatal("Table " + strconv.FormatUint(t.ID, 10) +
 			" had an unknown action type of \"" + actionType + "\".")

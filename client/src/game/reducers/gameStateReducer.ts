@@ -10,7 +10,7 @@ import {
   handRules,
   playStacksRules,
   textRules,
-  variantRules,
+  variantRules
 } from "../rules";
 import { ActionDiscard, ActionPlay, GameAction } from "../types/actions";
 import CardNote from "../types/CardNote";
@@ -242,6 +242,15 @@ function gameStateReducerFunction(
         order: action.order,
         segment: state.turn.segment!,
       });
+      break;
+    }
+
+    case "reorderCards": {
+      const hand = state.hands[action.playerIndex];
+      var positionBeforeMoving = hand.indexOf(action.cardOrder);
+      var positionAfterMoving = action.positionAfterMoving;
+      hand.splice(positionAfterMoving, 0, hand.splice(positionBeforeMoving, 1)[0]);
+
       break;
     }
 

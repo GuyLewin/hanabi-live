@@ -80,6 +80,13 @@ type ActionTurn struct {
 	CurrentPlayerIndex int    `json:"currentPlayerIndex"`
 }
 
+type ActionReorderCards struct {
+	Type                string `json:"type"`
+	PlayerIndex         int    `json:"playerIndex"`
+	CardOrder           int    `json:"cardOrder"`
+	PositionAfterMoving int    `json:"positionAfterMoving"`
+}
+
 type Clue struct {
 	Type  int `json:"type"`
 	Value int `json:"value"`

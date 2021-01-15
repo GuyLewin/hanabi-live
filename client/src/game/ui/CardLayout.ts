@@ -86,7 +86,9 @@ export default class CardLayout extends Konva.Group {
     if (numCards > 1) {
       spacingBetweenCards = (handWidth - uw) / (numCards - 1);
     }
-    let maxSpacingBetweenCards = 0.04 * uw;
+    // GUY
+    //let maxSpacingBetweenCards = 0.04 * uw;
+    let maxSpacingBetweenCards = 15 * uw;
     if (globals.lobby.settings.keldonMode) {
       maxSpacingBetweenCards = 0.025 * uw;
     }

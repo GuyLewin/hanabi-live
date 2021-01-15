@@ -6,8 +6,11 @@ export default class Settings {
   soundTimer = true;
   keldonMode = false;
   colorblindMode = false;
-  realLifeMode = false;
-  reverseHands = false;
+
+  // GUY
+  realLifeMode = true;
+  reverseHands = true;
+
   styleNumbers = false;
   showTimerInUntimed = false;
   volume = 50;

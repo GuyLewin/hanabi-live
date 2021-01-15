@@ -72,7 +72,8 @@ func commandAction(ctx context.Context, s *Session, d *CommandData) {
 
 	if d.Type != ActionTypeEndGame {
 		// Validate that it is this player's turn
-		if g.ActivePlayerIndex != playerIndex {
+		// GUY: Allow the user to perform ActionTypeReorderCards outside their turn
+		if g.ActivePlayerIndex != playerIndex && d.Type != ActionTypeReorderCards {
 			s.Warning("It is not your turn, so you cannot perform an action.")
 			g.InvalidActionOccurred = true
 			return
@@ -122,7 +123,7 @@ func action(ctx context.Context, s *Session, d *CommandData, t *Table, p *GamePl
 
 	// GUY
 	if d.Type == ActionTypeReorderCards {
-		t.NotifyReorderCards(d.CardOrder, d.PositionAfterMoving)
+		t.NotifyReorderCards(d.CardOrder, d.PositionAfterMoving, p.Index)
 		// Reordering cards isn't a turn
 		return
 	}

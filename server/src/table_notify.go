@@ -191,11 +191,11 @@ func (t *Table) NotifyTurn() {
 }
 
 // GUY
-func (t *Table) NotifyReorderCards(cardOrder int, positionAfterMoving int) {
+func (t *Table) NotifyReorderCards(cardOrder int, positionAfterMoving int, playerIndex int) {
 	g := t.Game
 	g.Actions = append(g.Actions, ActionReorderCards{
 		Type:                "reorderCards",
-		PlayerIndex:         g.ActivePlayerIndex,
+		PlayerIndex:         playerIndex,
 		CardOrder:           cardOrder,
 		PositionAfterMoving: positionAfterMoving,
 	})

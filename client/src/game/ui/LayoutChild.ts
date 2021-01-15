@@ -13,7 +13,6 @@ import * as cursor from "./cursor";
 import globals from "./globals";
 import HanabiCard from "./HanabiCard";
 import * as hypothetical from "./hypothetical";
-import isOurTurn from "./isOurTurn";
 import PlayStack from "./PlayStack";
 import * as turn from "./turn";
 
@@ -97,7 +96,8 @@ export default class LayoutChild extends Konva.Group {
     return (
       // If it is not our turn, then the card should not need to be draggable yet
       // (unless we have the "Enable pre-playing cards" feature enabled)
-      (isOurTurn() || globals.lobby.settings.speedrunPreplay) &&
+      // GUY: We want to be able to reorder our cards outside of our turn
+      //(isOurTurn() || globals.lobby.settings.speedrunPreplay) &&
       // Cards should not be draggable if there is a queued move
       globals.state.premove === null &&
       !globals.options.speedrun && // Cards should never be draggable while speedrunning

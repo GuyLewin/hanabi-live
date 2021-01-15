@@ -33,3 +33,5 @@ motd.txt*
 
 # Private keys
 GitHub_private_key.pem
+
+.idea/
